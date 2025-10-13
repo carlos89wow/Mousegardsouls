@@ -8,22 +8,28 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movimiento")]
     public float speed = 5f;
-    public bool useKeyboard = true;      // Si usas botones UI, déjalo en false
+    public bool useKeyboard = true;
 
     [Header("Knockback / Invulnerabilidad")]
-    public float knockbackDistance = 1f; // Distancia a “rebotar”
+    public float knockbackDistance = 1f;
     public float knockbackDuration = 0.08f;
-    public float invulnTime = 0.4f;      // Tiempo invulnerable tras el golpe
+    public float invulnTime = 0.4f;
 
     // Componentes
     private Rigidbody2D rb;
     private Animator anim;
     private SpriteRenderer sr;
 
-    // Estado de entrada y flags
+    // Estado
     private Vector2 input = Vector2.zero;
     private bool isKnockback = false;
     private bool isInvulnerable = false;
+
+    [Header("Armas y disparo")]
+    public GameObject arrowPrefab;
+    public Transform shootPoint;
+    [SerializeField] private float shootCooldown = 0.3f;
+    private float shootTimer = 0f;
 
     void Awake()
     {
@@ -36,11 +42,12 @@ public class PlayerController : MonoBehaviour
     {
         input = Vector2.zero;
         rb.linearVelocity = Vector2.zero;
+        shootTimer = 0f; // Reinicia el temporizador
     }
 
     void Update()
     {
-        // Entrada por teclado (opcional)
+        // Movimiento por teclado (solo si se usa)
         if (useKeyboard && !isKnockback)
         {
             input.x = Input.GetAxisRaw("Horizontal");
@@ -48,7 +55,14 @@ public class PlayerController : MonoBehaviour
             input = input.normalized;
         }
 
-        // Actualiza animaciones cada frame
+        // Enfriamiento de disparo
+        if (shootTimer > 0)
+            shootTimer -= Time.deltaTime;
+
+        // Disparo con espacio (opcional)
+        if (useKeyboard && Input.GetKeyDown(KeyCode.Space))
+            PressShoot();
+
         UpdateAnimation();
     }
 
@@ -58,14 +72,14 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = input * speed;
     }
 
-    // ===== Botones UI (úsalos si no quieres teclado) =====
+    // ===== Botones UI =====
     public void MoveUp() { if (!isKnockback) input = Vector2.up; }
     public void MoveDown() { if (!isKnockback) input = Vector2.down; }
     public void MoveLeft() { if (!isKnockback) { input = Vector2.left; if (sr) sr.flipX = true; } }
     public void MoveRight() { if (!isKnockback) { input = Vector2.right; if (sr) sr.flipX = false; } }
     public void Stop() { if (!isKnockback) input = Vector2.zero; }
 
-    // ===== Colisiones (elige trigger o collision según tu setup) =====
+    // ===== Colisiones =====
     void OnCollisionEnter2D(Collision2D col)
     {
         if (isInvulnerable) return;
@@ -91,10 +105,8 @@ public class PlayerController : MonoBehaviour
         isKnockback = true;
         isInvulnerable = true;
 
-        // “Corta” la animación de caminar
         if (anim) anim.SetFloat("Speed", 0f);
 
-        // Dirección del empujón (del enemigo hacia el jugador)
         Vector2 dir = ((Vector2)transform.position - fromPosition).normalized;
         if (dir.sqrMagnitude < 0.0001f) dir = Vector2.up;
 
@@ -113,7 +125,6 @@ public class PlayerController : MonoBehaviour
 
         isKnockback = false;
 
-        // Invulnerabilidad temporal (si quieres, aquí puedes parpadear el sprite)
         float timer = 0f;
         while (timer < invulnTime)
         {
@@ -128,12 +139,38 @@ public class PlayerController : MonoBehaviour
     {
         if (!anim) return;
 
-        // Velocidad actual para el parámetro "Speed"
         float currentSpeed = rb.linearVelocity.magnitude;
         anim.SetFloat("Speed", currentSpeed);
-
-        // Si usas blend por dirección (opcional)
         anim.SetFloat("Horizontal", input.x);
         anim.SetFloat("Vertical", input.y);
+    }
+
+    // ===== Disparo =====
+    private void ShootArrow()
+    {
+        if (arrowPrefab == null) return;
+
+        Vector3 spawnPos = shootPoint != null ? shootPoint.position : transform.position;
+        GameObject arrow = Instantiate(arrowPrefab, spawnPos, transform.rotation);
+
+        Rigidbody2D rbArrow = arrow.GetComponent<Rigidbody2D>();
+        if (rbArrow != null)
+        {
+            rbArrow.linearVelocity = transform.right * 10f;
+        }
+
+        Debug.Log("Flecha disparada");
+    }
+
+    public void PressShoot()
+    {
+        if (shootTimer > 0f)
+        {
+            Debug.Log("Cooldown activo");
+            return;
+        }
+
+        ShootArrow();
+        shootTimer = shootCooldown;
     }
 }
