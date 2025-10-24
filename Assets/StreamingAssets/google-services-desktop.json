@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "586250930185",
+    "project_id": "mouseguard-souls",
+    "storage_bucket": "mouseguard-souls.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:586250930185:android:14eefecf56d594a661d0d8",
+        "android_client_info": {
+          "package_name": "com.carlos.mouseguardsouls"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4mBXYc25M3JLWYNhBtu6mVTKp0vv3eg0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

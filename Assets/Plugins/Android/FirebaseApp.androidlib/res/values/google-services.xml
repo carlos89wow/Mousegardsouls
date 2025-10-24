@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id">
+  <string name="gcm_defaultSenderId" translatable="false">586250930185</string>
+  <string name="google_storage_bucket" translatable="false">mouseguard-souls.firebasestorage.app</string>
+  <string name="project_id" translatable="false">mouseguard-souls</string>
+  <string name="google_api_key" translatable="false">AIzaSyA4mBXYc25M3JLWYNhBtu6mVTKp0vv3eg0</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyA4mBXYc25M3JLWYNhBtu6mVTKp0vv3eg0</string>
+  <string name="google_app_id" translatable="false">1:586250930185:android:14eefecf56d594a661d0d8</string>
+</resources>
