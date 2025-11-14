@@ -22,3 +22,6 @@ Assets/Firebase/Plugins/armeabi-v7a/
 # OS files
 .DS_Store
 Thumbs.db
+# Visual Studio cache
+.vs/
+

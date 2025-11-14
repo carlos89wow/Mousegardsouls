@@ -12,13 +12,13 @@ public class Arrow : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Puedes poner aquí condiciones según el tipo de objeto
         if (other.CompareTag("Enemy") || other.CompareTag("Wall"))
         {
-            // Si toca enemigo o pared, destruye la flecha
             Destroy(gameObject);
         }
     }
+
+
 
 
 }

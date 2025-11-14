@@ -85,9 +85,9 @@ public class PlayerController : MonoBehaviour
         if (isInvulnerable) return;
         if (col.collider.CompareTag("Enemy"))
         {
-            Vector2 from = col.collider.bounds.center;
-            StartCoroutine(DoKnockback(from));
+            LevelManager.Instance.RestartLevel();
         }
+
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -95,9 +95,9 @@ public class PlayerController : MonoBehaviour
         if (isInvulnerable) return;
         if (other.CompareTag("Enemy") || other.CompareTag("Hazard"))
         {
-            Vector2 from = other.bounds.center;
-            StartCoroutine(DoKnockback(from));
+            LevelManager.Instance.RestartLevel();
         }
+
     }
 
     private IEnumerator DoKnockback(Vector2 fromPosition)
@@ -141,8 +141,8 @@ public class PlayerController : MonoBehaviour
 
         float currentSpeed = rb.linearVelocity.magnitude;
         anim.SetFloat("Speed", currentSpeed);
-        anim.SetFloat("Horizontal", input.x);
-        anim.SetFloat("Vertical", input.y);
+        //anim.SetFloat("Horizontal", input.x);
+       // anim.SetFloat("Vertical", input.y);
     }
 
     // ===== Disparo =====
@@ -173,4 +173,10 @@ public class PlayerController : MonoBehaviour
         ShootArrow();
         shootTimer = shootCooldown;
     }
+    public void Die()
+    {
+        Debug.Log("El jugador murió");
+        LevelManager.Instance.RestartLevel();
+    }
+
 }
