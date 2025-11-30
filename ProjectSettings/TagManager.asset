@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Enemy
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -44,6 +45,9 @@ TagManager:
     locked: 0
   - name: Characters
     uniqueID: 349144255
+    locked: 0
+  - name: Projectiles
+    uniqueID: 3934611115
     locked: 0
   m_RenderingLayers:
   - Default

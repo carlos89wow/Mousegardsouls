@@ -12,7 +12,7 @@ public class Arrow : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Enemy") || other.CompareTag("Wall"))
+        if (other.CompareTag("Wall") || other.CompareTag("Player"))
         {
             Destroy(gameObject);
         }

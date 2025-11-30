@@ -59,9 +59,6 @@ public class PlayerController : MonoBehaviour
         if (shootTimer > 0)
             shootTimer -= Time.deltaTime;
 
-        // Disparo con espacio (opcional)
-        if (useKeyboard && Input.GetKeyDown(KeyCode.Space))
-            PressShoot();
 
         UpdateAnimation();
     }
